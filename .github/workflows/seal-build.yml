@@ -1,0 +1,25 @@
+name: seal-build
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  pack:
+    name: pack npm tarball
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: npm pack
+        run: npm pack --ignore-scripts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qs-npm-tarball
+          path: qs-6.2.1.tgz
+          if-no-files-found: error
